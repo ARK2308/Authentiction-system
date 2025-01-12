@@ -1,4 +1,4 @@
-const adminDB = require("../../model/adminModel");
+const adminDB = require("../../model/admin/adminModel");
 const bcrypt = require("bcryptjs");
 
 // Register Controller
@@ -61,26 +61,26 @@ exports.Login = async (req, res) => {
 
 exports.AdminVerify = async (req, res) => {
     try {
-      const verifyadmin = await adminDB.findOne({_id:req.userId});
-      if(!verifyadmin){
-          return res.status(400).json({error:"Admin not verified"});
-      }
-      return res.status(200).json(verifyadmin);
-  } catch (error) {
-      // res.status(500).json({error:"Invalid Credentials"});
-  }
-  };
-  // admin logout controller
+        const verifyadmin = await adminDB.findOne({ _id: req.userId });
+        if (!verifyadmin) {
+            return res.status(400).json({ error: "Admin not verified" });
+        }
+        return res.status(200).json(verifyadmin);
+    } catch (error) {
+        res.status(500).json({ error: "Invalid Credentials" });
+    }
+};
+// admin logout controller
 // Get method
 exports.Logout = async (req, res) => {
     try {
-      req.rootUser.tokens = req.rootUser.tokens.filter((currentUser)=>{
-        return currentUser.token !== req.token;
-    });
-  
-    req.rootUser.save();
-    res.status(200).json({message:"Admin Successfully Logout"});
+        req.rootUser.tokens = req.rootUser.tokens.filter((currentUser) => {
+            return currentUser.token !== req.token;
+        });
+
+        req.rootUser.save();
+        res.status(200).json({ message: "Admin Successfully Logout" });
     } catch (error) {
-      res.status(400).json(error);
+        res.status(400).json(error);
     }
-  }
+}

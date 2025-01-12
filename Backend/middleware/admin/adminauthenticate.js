@@ -1,4 +1,4 @@
-const adminDB = require("../../model/adminModel");
+const adminDB = require("../../model/admin/adminModel");
 const jwt = require("jsonwebtoken");
 const SECRET_KEY = "asuekygdlzb";
 

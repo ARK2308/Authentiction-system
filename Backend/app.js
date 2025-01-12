@@ -12,7 +12,11 @@ app.use(express.json());
 
 // Admin routes
 const adminAuthRoutes = require("./routes/admin/adminAuthroutes.js");
-app.use("/api", adminAuthRoutes);
+app.use("/api/admin",  adminAuthRoutes);
+
+const userAuthroutes = require("./routes/user/userAuthRoutes.js")
+app.use("/api/user" , userAuthroutes )
+
 
 // Test route
 app.get("/", (req, res) => {
