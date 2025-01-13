@@ -9,3 +9,9 @@ export const registerApi = async(data,header)=>{
 export const loginApi = async(data,header)=>{
     return await commonrequest("POST",`${BASE_URL}/user/login`,data,header,"user");
 }
+
+
+// userLogoutApi api
+export const userLogoutApi = async(data,header)=>{
+    return await commonrequest("GET",`${BASE_URL}/user/logout`,"",header,"user");
+}

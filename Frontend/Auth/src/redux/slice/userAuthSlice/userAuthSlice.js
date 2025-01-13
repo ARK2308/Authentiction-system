@@ -38,6 +38,30 @@ export const userlogin = createAsyncThunk("userlogin",async(data)=>{
     }
 });
 
+// uselogoutfun  Slice
+export const uselogoutfun = createAsyncThunk("uselogoutfun",async(thunkApi)=>{
+    try {
+        const response = await userLogoutApi();
+        
+
+        if(response.status == 200){
+            toast.success("User Logout Done")
+            localStorage.removeItem("usertoken")
+            return response.data
+        }else{
+            toast.success("User Logout Done")
+            localStorage.removeItem("usertoken")
+            return thunkApi.rejectWithValue("error");
+        }
+    } catch (error) {
+        throw error;
+    }
+});
+
+
+
+
+
 
 
 
@@ -46,6 +70,7 @@ export const UserSlice = createSlice({
     initialState:{
         registeruser:[],
         loginuser:[],
+        UserLogout:[],
         loading:false,
         error:null
     },
@@ -72,6 +97,21 @@ export const UserSlice = createSlice({
             state.loginuser = action.payload;
         })
         .addCase(userlogin.rejected,(state,action)=>{
+            state.loading = false;
+            state.error = action.payload;
+        })
+            
+        // uselogoutfun Api
+        .addCase(uselogoutfun.pending,(state)=>{
+            state.loading = true;
+        })
+        .addCase(uselogoutfun.fulfilled,(state,action)=>{
+            state.loading = false;
+            state.UserLogout = [action.payload];
+            state.UserLoggedIn = [];
+            state.userCartData = [];
+        })
+        .addCase(uselogoutfun.rejected,(state,action)=>{
             state.loading = false;
             state.error = action.payload;
         })
