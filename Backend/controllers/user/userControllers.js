@@ -2,32 +2,40 @@ const userDB = require("../../model/user/userModel");
 const bcrypt = require("bcryptjs");
 
 
-exports.userRegister = async (req , res) =>{
+exports.userRegister = async (req, res) => {
     const { firstname, lastname, email, password } = req.body;
-    if(!firstname || !lastname || !email || !password ){
-        res.status(400).json({error: "all fields are required"})
+  
+    // Validate required fields
+    if (!firstname || !lastname || !email || !password) {
+      return res.status(400).json({ error: "All fields are required" });
     }
+  
     try {
-        const preuser = await userDB.findOne({ email: email });
-    
-        if (preuser) {
-          res.status(400).json({ error: "this user is already exist" });
-        }  else {
-          const userData = new userDB({
-            firstname,
-            lastname,
-            email,
-            password,
-          })
-           // here password hashing
-
+      // Check if user already exists
+      const preuser = await userDB.findOne({ email: email });
+      if (preuser) {
+        return res.status(400).json({ error: "This user already exists" });
+      }
+  
+      // Create a new user
+      const userData = new userDB({
+        firstname,
+        lastname,
+        email,
+        password,
+      });
+  
+      // Save user to the database
       await userData.save();
-      res.status(200).json(userData);
+      return res.status(200).json(userData);
+  
+    } catch (error) {
+      // Handle errors
+      console.error(error);
+      return res.status(500).json({ error: "Internal Server Error" });
     }
-  } catch (error) {
-    res.status(400).json(error);
-  }
-};
+  };
+  
 
 
 // login controller 
