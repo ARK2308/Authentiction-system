@@ -14,8 +14,14 @@ app.use(express.json());
 const adminAuthRoutes = require("./routes/admin/adminAuthroutes.js");
 app.use("/api/admin",  adminAuthRoutes);
 
+// user routes 
 const userAuthroutes = require("./routes/user/userAuthRoutes.js")
 app.use("/api/user" , userAuthroutes )
+
+// poll routes 
+const pollRoutes = require("./routes/poll/pollRoutes");
+app.use("/api/polls", pollRoutes);
+
 
 
 // Test route
